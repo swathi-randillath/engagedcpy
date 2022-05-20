@@ -73,6 +73,9 @@ class ApiService {
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeInfoFromJson(response.body);
+    }else if (response.statusCode == 401) {
+      getRefreshToken();
+      return  employeeInfoFromJson('');
     } else {
       throw Exception("failed to load");
     }
@@ -89,7 +92,10 @@ class ApiService {
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeReportFromJson(response.body);
-    } else {
+    }else if (response.statusCode == 401) {
+      getRefreshToken();
+      return  employeeReportFromJson('');
+    }  else {
       throw Exception("failed to load");
     }
   }
@@ -104,25 +110,10 @@ class ApiService {
 
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       return profileValueFromJson(response.body);
+    } else if (response.statusCode == 401) {
+      getRefreshToken();
+      return  profileValueFromJson('');
     } else {
       throw Exception("failed to load");
     }

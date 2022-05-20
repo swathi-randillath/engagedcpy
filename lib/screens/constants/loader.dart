@@ -12,9 +12,10 @@ class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Color(0xff1D3149),
       body: Center(
         child: CircularProgressIndicator(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           color: Color(0xff228BDB),
           strokeWidth: 8,
         ),
