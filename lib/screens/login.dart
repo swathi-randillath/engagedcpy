@@ -116,20 +116,12 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-        BoxConstraints(
-            minWidth: 0.0,
-            minHeight: 0.0,
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height),
-        context: context,
-        minTextAdapt: true,
-        orientation: Orientation.portrait);
+
     return Scaffold(
+
         key: scaffoldKey,
         backgroundColor: const Color(0xffFBF9F7),
         body: SafeArea(
@@ -141,14 +133,14 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.only(left: 16.0, right: 16),
                 child: Column(children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 90, top: 80),
+                    padding: const EdgeInsets.only(right: 50, top: 80),
                     child: SizedBox(
-                        height: 48.h,
-                        width: 282.w,
+                        height: 48,
+                        width: 282,
                         child: Image.asset("assets/images/Logo.png")),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(top: 8.0, bottom: 100, right: 41),
+                    padding: EdgeInsets.only(top: 8.0, bottom: 100, right:15),
                     child: Text(
                       "Engage your client | staff | customer",
                       style: TextStyle(
@@ -165,8 +157,8 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           Container(
-                            height: 40.h,
-                            width: 40.w,
+                            height: 40,
+                            width: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey),
@@ -192,8 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           Container(
-                            height: 40.h,
-                            width: 40.w,
+                            height: 40,
+                            width: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey),
@@ -219,8 +211,8 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           Container(
-                            height: 40.h,
-                            width: 40.w,
+                            height: 40,
+                            width: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey),
@@ -379,7 +371,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       child: Container(
-                        height: 48.h,
+                        height: 48,
                         // width: 328.w,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),

@@ -58,6 +58,7 @@ class _MyProfileState extends State<MyProfile> {
       ApiService _apiService = ApiService();
       var result = await _apiService.getInfo();
       debugPrint("Size:: ${result.length}");
+      print(result);
       setState(() {
         _list = result;
       });
@@ -90,15 +91,13 @@ class _MyProfileState extends State<MyProfile> {
       debugPrint("failed to pick image:$e");
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    showDialog() {
-      return showModalBottomSheet<void>(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext context) {
-          return Column(
+  showDialog() {
+    return showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Column(
             children: [
               Container(
                 margin: const EdgeInsets.all(15),
@@ -185,19 +184,115 @@ class _MyProfileState extends State<MyProfile> {
                 ),
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    showDialog() {
+      return showModalBottomSheet<void>(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  width: 200,
+                  child: Column(
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          'Upload image\nSelect Source',
+                          style: TextStyle(
+                              color: Color(0xFF0D1B38),
+                              fontFamily: "inter",
+                              fontSize: 15),
+                        ),
+                      ),
+                      const Divider(),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          picImage(ImageSource.gallery);
+                        },
+                        child: const Text(
+                          'Gallery',
+                          style: TextStyle(
+                              color: Color(0xff228BDB),
+                              fontSize: 15,
+                              fontFamily: "inter"),
+                        ),
+                      ),
+                      const Divider(),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          picImage(ImageSource.camera);
+                        },
+                        child: const Text(
+                          'Camera',
+                          style: TextStyle(
+                              color: Color(0xFF2196F3),
+                              fontSize: 15,
+                              fontFamily: "inter"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  width: 200,
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(11.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                            color: Color(0xFF0D1B38),
+                            fontSize: 18,
+                            fontFamily: "inter"),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       );
     }
 
-    ScreenUtil.init(
-        BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: const Size(500, 900),
-        context: context,
-        minTextAdapt: true,
-        orientation: Orientation.portrait);
+
     return isload
         ? const Loader()
         : Scaffold(
@@ -252,178 +347,374 @@ class _MyProfileState extends State<MyProfile> {
                 ),
               ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16, top: 15),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        showDialog();
-                      },
-                      child: image != null
-                          ? Image.file(
-                              image!,
-                              height: 96.0.h,
-                              width: 96.0.w,
-                              fit: BoxFit.cover,
-                            )
-                          : SizedBox(
-                              height: 96.0.h,
-                              width: 96.0.w,
-                              child:
-                                  Image.asset("assets/images/Rectangle 5.png"),
-                            ),
+            body:
+            _layoutDetails(),
+          );
+
+  }
+  Widget _layoutDetails(){
+    Orientation orientation=MediaQuery.of(context).orientation;
+    if(orientation==Orientation.portrait){
+      return _portraitProfile();
+    }
+    else{
+      return _landScapeProfile();
+
+    }
+
+  }
+  Widget _portraitProfile(){
+  return  Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16, top: 15),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () {
+                showDialog();
+              },
+              child: image != null
+                  ? Image.file(
+                image!,
+                height: 96.0,
+                width: 96.0,
+                fit: BoxFit.cover,
+              )
+                  : SizedBox(
+                height: 96.0,
+                width: 96.0,
+                child:
+                Image.asset("assets/images/Rectangle 5.png"),
+              ),
+            ),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      _list[0].fullName,
+                      style: const TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff1D3149)),
                     ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              _list[0].fullName,
-                              style: const TextStyle(
-                                  fontFamily: 'inter',
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff1D3149)),
-                            ),
-                          ),
-                          Text(
-                            _list[0].idNumber,
+                  ),
+                  Text(
+                    _list[0].idNumber,
+                    style: const TextStyle(
+                        fontFamily: 'inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff8697AC)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 75, top: 27),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: SvgPicture.asset(
+                                "assets/images/mail.svg")),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            _list[0].email,
                             style: const TextStyle(
-                                fontFamily: 'inter',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff8697AC)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 75, top: 27),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                    width: 20.w,
-                                    height: 20.h,
-                                    child: SvgPicture.asset(
-                                        "assets/images/mail.svg")),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    _list[0].email,
-                                    style: const TextStyle(
-                                        color: Color(
-                                          0xff403E3D,
-                                        ),
-                                        fontSize: 14,
-                                        fontFamily: 'inter',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 120.0, top: 10, bottom: 10),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                    width: 20.w,
-                                    height: 20.h,
-                                    child: SvgPicture.asset(
-                                        "assets/images/Vector (8).svg")),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                  ),
-                                  child: Text(
-                                    _list[0].phoneNumber,
-                                    style: const TextStyle(
-                                        color: Color(
-                                          0xff403E3D,
-                                        ),
-                                        fontSize: 14,
-                                        fontFamily: 'inter',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ]),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 160.h,
-                        child: const EmployeeProfileValue()),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10.0, bottom: 20, left: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Sales Report",
-                            style: TextStyle(
-                                fontFamily: 'inter',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff403E3D)),
-                          ),
-                          Text(
-                            _timeString.toString(),
-                            style: const TextStyle(
-                                fontFamily: 'inter',
+                                color: Color(
+                                  0xff403E3D,
+                                ),
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff737372)),
+                                fontFamily: 'inter',
+                                fontWeight: FontWeight.w400),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 120.0, top: 10, bottom: 10),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: SvgPicture.asset(
+                                "assets/images/Vector (8).svg")),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                          ),
+                          child: Text(
+                            _list[0].phoneNumber,
+                            style: const TextStyle(
+                                color: Color(
+                                  0xff403E3D,
+                                ),
+                                fontSize: 14,
+                                fontFamily: 'inter',
+                                fontWeight: FontWeight.w400),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ]),
+            SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 160,
+                child: const EmployeeProfileValue()),
+            Padding(
+              padding:
+              const EdgeInsets.only(top: 10.0, bottom: 20, left: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Sales Report",
+                    style: TextStyle(
+                        fontFamily: 'inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff403E3D)),
+                  ),
+                  Text(
+                    _timeString.toString(),
+                    style: const TextStyle(
+                        fontFamily: 'inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff737372)),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(width: 700, height: 270, child: MyChartPage()),
+            Padding(
+              padding:
+              const EdgeInsets.only(bottom: 15.0, left: 65, top: 5),
+              child: Row(
+                children: [
+                  Container(
+                      height: 10,
+                      width: 10,
+                      color: const Color(0xff8697AC)),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5.0, right: 12),
+                    child: Text(
+                      "Actual Value",
+                      style: TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff8697AC)),
+                    ),
+                  ),
+                  Container(
+                      height: 10,
+                      width: 10,
+                      color: const Color(0xff37B257)),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5.0, right: 12),
+                    child: Text(
+                      "Target Value",
+                      style: TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff8697AC)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+
+  }
+  Widget _landScapeProfile(){
+    return  SingleChildScrollView(
+      child:  Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16, top: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () {
+                  showDialog();
+                },
+                child: image != null
+                    ? Image.file(
+                  image!,
+                  height: 96.0,
+                  width: 96.0,
+                  fit: BoxFit.cover,
+                )
+                    : SizedBox(
+                  height: 96.0,
+                  width: 96.0,
+                  child:
+                  Image.asset("assets/images/Rectangle 5.png"),
+                ),
+              ),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _list[0].fullName,
+                        style: const TextStyle(
+                            fontFamily: 'inter',
+                            fontSize: 32,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff1D3149)),
+                      ),
+                    ),
+                    Text(
+                      _list[0].idNumber,
+                      style: const TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff8697AC)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 245, top: 27),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: SvgPicture.asset(
+                                  "assets/images/mail.svg")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              _list[0].email,
+                              style: const TextStyle(
+                                  color: Color(
+                                    0xff403E3D,
+                                  ),
+                                  fontSize: 14,
+                                  fontFamily: 'inter',
+                                  fontWeight: FontWeight.w400),
+                            ),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(width: 700.w, height: 270.h, child: MyChartPage()),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 15.0, left: 65, top: 5),
+                      padding: const EdgeInsets.only(
+                          left: 290.0, top: 10, bottom: 10),
                       child: Row(
                         children: [
-                          Container(
-                              height: 10,
-                              width: 10,
-                              color: const Color(0xff8697AC)),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 5.0, right: 12),
-                            child: Text(
-                              "Actual Value",
-                              style: TextStyle(
-                                  fontFamily: 'inter',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff8697AC)),
+                          SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: SvgPicture.asset(
+                                  "assets/images/Vector (8).svg")),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
                             ),
-                          ),
-                          Container(
-                              height: 10,
-                              width: 10,
-                              color: const Color(0xff37B257)),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 5.0, right: 12),
                             child: Text(
-                              "Target Value",
-                              style: TextStyle(
+                              _list[0].phoneNumber,
+                              style: const TextStyle(
+                                  color: Color(
+                                    0xff403E3D,
+                                  ),
+                                  fontSize: 14,
                                   fontFamily: 'inter',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff8697AC)),
+                                  fontWeight: FontWeight.w400),
                             ),
-                          ),
+                          )
                         ],
+                      ),
+                    )
+                  ]),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 160,
+                  child: const EmployeeProfileValue()),
+              Padding(
+                padding:
+                const EdgeInsets.only(top: 10.0, bottom: 20, left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Sales Report",
+                      style: TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff403E3D)),
+                    ),
+                    Text(
+                      _timeString.toString(),
+                      style: const TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff737372)),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(width: 700, height: 270, child: MyChartPage()),
+              Padding(
+                padding:
+                const EdgeInsets.only(bottom: 15.0, left: 65, top: 5),
+                child: Row(
+                  children: [
+                    Container(
+                        height: 10,
+                        width: 10,
+                        color: const Color(0xff8697AC)),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5.0, right: 12),
+                      child: Text(
+                        "Actual Value",
+                        style: TextStyle(
+                            fontFamily: 'inter',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff8697AC)),
+                      ),
+                    ),
+                    Container(
+                        height: 10,
+                        width: 10,
+                        color: const Color(0xff37B257)),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5.0, right: 12),
+                      child: Text(
+                        "Target Value",
+                        style: TextStyle(
+                            fontFamily: 'inter',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff8697AC)),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          );
+            ],
+          ),
+        ),
+      ),
+    );
+
+
   }
 }

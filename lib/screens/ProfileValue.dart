@@ -42,9 +42,7 @@ class _EmployeeProfileValueState extends State<EmployeeProfileValue> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffFBF9F7),
-
-      body:
-      Center(
+      body: Center(
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -55,37 +53,42 @@ class _EmployeeProfileValueState extends State<EmployeeProfileValue> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      height: 103.h,
-                      width: 103.w,
-                      child: Card(
-                        shadowColor: const Color(0xff1D3149),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24.0),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              _data[index].value.toString(),
-                              style: const TextStyle(
-                                  fontFamily: 'inter',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xff228BDB)
-                              ),
-                            ),
-                            Text(
-                              _data[index].description,
-                              style: const TextStyle(
-                                  fontFamily: 'inter',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff8F8F8F)),
-                            )
-                          ],
-                        ),
+                    const
+                    SizedBox(width: 20),
+                    Container(
+                      height: 103,
+                      width: 103,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffFFFFFF),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: const [
+                          BoxShadow(
+                              offset: Offset(0, 8),
+                              color: Color.fromRGBO(29, 49, 73, 0.16),
+                              blurRadius: 28.0,
+                              spreadRadius: -6),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _data[index].value.toString(),
+                            style: const TextStyle(
+                                fontFamily: 'inter',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff228BDB)),
+                          ),
+                          Text(
+                            _data[index].description,
+                            style: const TextStyle(
+                                fontFamily: 'inter',
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff8F8F8F)),
+                          )
+                        ],
                       ),
                     ),
                   ]),

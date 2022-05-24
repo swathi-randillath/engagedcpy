@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../login.dart';
-import '../myprofile.dart';
+import '../screens/login.dart';
+import '../screens/myprofile.dart';
 
 void _completeLogin(context) {
   Navigator.pushAndRemoveUntil(
@@ -100,7 +100,7 @@ buildProfileDrawer(context) {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   title: const Text('Logout'),
-                  content: const Text('Are You sure You Want To logout?.'),
+                  content: const Text('Are you sure you want to Logout?.'),
                   actions: <Widget>[
                     TextButton(
                       child: const Text('Cancel'),

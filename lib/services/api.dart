@@ -12,6 +12,7 @@ import '../screens/constants/toast.dart';
 class ApiService {
   static var client = http.Client();
   static var baseurl = "http://demo5.scarecrow.co.za/";
+
   static String loginUrl = baseurl + "token";
   static String pageAccessUrl = baseurl + "api/employees/authenticate";
   static String profileInfoUrl = baseurl + "api/employees/profileInfo";
@@ -69,13 +70,12 @@ class ApiService {
       'Authorization': authorization
     });
     debugPrint(response.body);
+    print("token=$authorization");
+
 
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeInfoFromJson(response.body);
-    }else if (response.statusCode == 401) {
-      getRefreshToken();
-      return  employeeInfoFromJson('');
     } else {
       throw Exception("failed to load");
     }
@@ -88,14 +88,14 @@ class ApiService {
       'Authorization': authorization
     });
     debugPrint(response.body);
+    print("token=$authorization");
+
+
 
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeReportFromJson(response.body);
-    }else if (response.statusCode == 401) {
-      getRefreshToken();
-      return  employeeReportFromJson('');
-    }  else {
+    } else {
       throw Exception("failed to load");
     }
   }
@@ -107,13 +107,11 @@ class ApiService {
       'Authorization': authorization
     });
     debugPrint(response.body);
+    print("token=$authorization");
 
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return profileValueFromJson(response.body);
-    } else if (response.statusCode == 401) {
-      getRefreshToken();
-      return  profileValueFromJson('');
     } else {
       throw Exception("failed to load");
     }
@@ -131,6 +129,8 @@ class ApiService {
     if (response.statusCode == 200) {
       final box = GetStorage();
       var refreshBody = refreshFromJson(response.body);
+       var refresh_token= box.read(ACCESS_TOKEN);
+       String ggg= "bearer$refresh_token";
       box.write(ACCESS_TOKEN, refreshBody.accessToken);
       toastMessage("Refresh success");
     } else {

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:engaged/screens/constants/loader.dart';
 import 'package:engaged/services/api.dart';
@@ -7,13 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../models/homePageResponse.dart';
-import 'constants/drawer.dart';
-import 'constants/toast.dart';
-import 'login.dart';
-import 'myprofile.dart';
+import '../utils/drawer.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   void _getTime() {
     final String formattedDateTime =
-        DateFormat('MMM dd, yyyy').format(DateTime.now()).toString();
+    DateFormat('MMM dd, yyyy').format(DateTime.now()).toString();
     setState(() {
       _timeString = formattedDateTime;
       print(_timeString);
@@ -74,18 +69,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-        BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: Size(
-          MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height,
-        ),
-        context: context,
-        minTextAdapt: true,
-        orientation: Orientation.portrait);
-    return _loading
+
+    return
+      _loading
         ? const Loader()
         : Scaffold(
       drawerScrimColor: Colors.transparent.withOpacity(.80),
@@ -154,7 +140,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(
                   left: 16, top: 20, bottom: 20, right: 16),
               child: SizedBox(
-                height: 800.h,
+                height: 800,
                 child: ListView.builder(
                   itemCount: _listData.length,
                   itemBuilder: (context, index) {
@@ -172,21 +158,20 @@ class _HomePageState extends State<HomePage> {
                                     spreadRadius: -6),
                               ],
                             ),
-                            height: 70.h,
+                            height: 70,
                             child: Stack(
                               children: [
                                 Positioned(
                                   left: 18,
                                   top: 16,
                                   bottom: 16,
-                                  right: 298,
                                   child: SvgPicture.asset(
                                     "assets/images/${_listData[index].iconDescription}",
                                     // color: Color(0xff228BDB),
                                   ),
                                 ),
                                 Positioned(
-                                  left: 75,
+                                  left: 70,
                                   top: 15,
                                   child: Text(_listData[index].description,
                                       overflow: TextOverflow.ellipsis,
@@ -197,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                                           fontFamily: 'inter')),
                                 ),
                                 Positioned(
-                                  left: 75,
+                                  left: 70,
                                   top: 40,
                                   child: Text(_listData[index].subDescription,
                                       overflow: TextOverflow.ellipsis,
