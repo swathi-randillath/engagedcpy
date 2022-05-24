@@ -18,6 +18,7 @@ class _SplashState extends State<Splash> {
     super.initState();
 
     var isLoggedIn = getUserLogin();
+
     debugPrint("IS LOGGED IN: $isLoggedIn");
 
     Timer(

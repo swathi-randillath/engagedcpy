@@ -110,9 +110,7 @@ buildProfileDrawer(context) {
                     ),
                     TextButton(
                       child: const Text('Logout'),
-                      onPressed: () {
-                        _completeLogin;
-                      },
+                      onPressed: ()=>_completeLogin
                     )
                   ],
                 ),

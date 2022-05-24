@@ -31,11 +31,18 @@ class _MyProfileState extends State<MyProfile> {
   bool isload = true;
 
   @override
-  void initState() {
+  void initState()  {
     // TODO: implement initState
     super.initState();
-    getDetails();
+    getDetailsWrapper();
     _getTime();
+  }
+
+  void getDetailsWrapper() async {
+    var isLoadTemp = await getDetails();
+    setState(() {
+      isload = isLoadTemp;
+    });
   }
 
   void _getTime() {
@@ -46,31 +53,29 @@ class _MyProfileState extends State<MyProfile> {
     });
   }
 
-  void getDetails() async {
-    setState(() {
-      isload = false;
-    });
+  Future<bool> getDetails() async {
+    // setState(() {
+    //   isload = false;
+    // });
     try {
-      setState(() {
-        isload = true;
-      });
-
+      // setState(() {
+      //   isload = true;
+      // });
+      print("reached getDetails");
       ApiService _apiService = ApiService();
       var result = await _apiService.getInfo();
       debugPrint("Size:: ${result.length}");
-      print(result);
       setState(() {
         _list = result;
       });
-      setState(() {
-        isload = false;
-      });
+     return false;
     } on Exception catch (exception) {
       toastMessage("CHECK CONNECTION");
-
+      return true;
       // only executed if error is of type Exception
     } catch (error) {
-      // executed for errors of all types other than Exception
+      toastMessage("UNKNOWN ERROR");
+      return true;
     }
   }
 

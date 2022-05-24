@@ -118,8 +118,8 @@ class ApiService {
   }
 
   static Future<void> getRefreshToken() async {
-    debugPrint(getToken());
-    var body = {"Refresh_token": getToken(), "grant_type": "refresh_token"};
+    debugPrint(getReToken());
+    var body = {"Refresh_token": getReToken(), "grant_type": "refresh_token"};
     final response = await client.post(Uri.parse(loginUrl), body: body);
     debugPrint('body:' + response.body);
     debugPrint('status:' + response.statusCode.toString());
@@ -129,9 +129,7 @@ class ApiService {
     if (response.statusCode == 200) {
       final box = GetStorage();
       var refreshBody = refreshFromJson(response.body);
-       var refresh_token= box.read(ACCESS_TOKEN);
-       String ggg= "bearer$refresh_token";
-      box.write(ACCESS_TOKEN, refreshBody.accessToken);
+      box.write(refresh_token, refreshBody.accessToken);
       toastMessage("Refresh success");
     } else {
       throw Exception('Failed to load');

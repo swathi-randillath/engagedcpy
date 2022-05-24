@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
       var result = await ApiService.loginAccount(myNameController.text,
           myPasswordController.text, "password", lat, long);
       box.write(ACCESS_TOKEN, result.accessToken);
+      box.write(refresh_token, result.refreshToken);
       box.write(USER_LOGGED_IN, true);
 
       debugPrint("safe:$USER_LOGGED_IN");
