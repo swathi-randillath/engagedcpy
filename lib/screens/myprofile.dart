@@ -29,6 +29,7 @@ class _MyProfileState extends State<MyProfile> {
   List<EmployeeInfo> _list = [];
   String? _timeString;
   bool isload = true;
+  final ApiService _apiService = ApiService();
 
   @override
   void initState()  {
@@ -62,9 +63,13 @@ class _MyProfileState extends State<MyProfile> {
       //   isload = true;
       // });
       print("reached getDetails");
-      ApiService _apiService = ApiService();
+
       var result = await _apiService.getInfo();
       debugPrint("Size:: ${result.length}");
+      if(result.isEmpty){
+        //call getDetails again after refresh token
+        getDetails();
+      }
       setState(() {
         _list = result;
       });

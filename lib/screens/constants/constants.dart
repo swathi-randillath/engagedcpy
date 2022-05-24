@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 
 const ACCESS_TOKEN = "token";
 const refresh_token="refresh_token";
 const user_name="user_name";
+const password="password";
 const USER_LOGGED_IN = "user_logged_in";
 
 String getToken() {
@@ -15,10 +17,13 @@ String getToken() {
 String getReToken(){
   final storage = GetStorage();
 
+  debugPrint("accessToken :${storage.read(ACCESS_TOKEN)}");
+  debugPrint("refresh_token :${storage.read(refresh_token)}");
+
   var retoken = storage.read(refresh_token);
   print(retoken);
-  String reftoken = refresh_token;
-  return reftoken;
+  //String reftoken = refresh_token;
+  return retoken;
 }
 
 

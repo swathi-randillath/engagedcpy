@@ -45,6 +45,8 @@ class ApiService {
   }
 
   Future<List<PageAccessModel>> getData() async {
+
+    debugPrint("accessToken ------->>>>> :$authorization");
     final response = await client.get(Uri.parse(pageAccessUrl), headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -56,7 +58,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return pageAccessModelFromJson(response.body);
     } else if (response.statusCode == 401) {
-      getRefreshToken();
+      var success = getRefreshToken();
       return pageAccessModelFromJson("");
     } else {
       throw Exception("failed to load");
@@ -76,6 +78,9 @@ class ApiService {
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeInfoFromJson(response.body);
+    }else if (response.statusCode == 401) {
+      var success = getRefreshToken();
+      return employeeInfoFromJson("");
     } else {
       throw Exception("failed to load");
     }
@@ -117,7 +122,7 @@ class ApiService {
     }
   }
 
-  static Future<void> getRefreshToken() async {
+   Future<bool> getRefreshToken() async {
     debugPrint(getReToken());
     var body = {"Refresh_token": getReToken(), "grant_type": "refresh_token"};
     final response = await client.post(Uri.parse(loginUrl), body: body);
@@ -131,6 +136,7 @@ class ApiService {
       var refreshBody = refreshFromJson(response.body);
       box.write(refresh_token, refreshBody.accessToken);
       toastMessage("Refresh success");
+      return true;
     } else {
       throw Exception('Failed to load');
     }

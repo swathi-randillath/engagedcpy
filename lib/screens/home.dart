@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<PageAccessModel> _listData = [];
   String? _timeString;
   bool _loading = true;
+  final ApiService _apiService = ApiService();
 
   GlobalKey<ScaffoldState> _key = GlobalKey(); // add this
 
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    checkLogin();
+    getHome();
     _getTime();
   }
 
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void checkLogin() async {
+  void getHome() async {
     setState(() {
       _loading = false;
     });
@@ -51,9 +52,14 @@ class _HomePageState extends State<HomePage> {
         _loading = true;
       });
 
-      ApiService _apiService = ApiService();
+
       var result = await _apiService.getData();
       debugPrint("Size:: ${result.length}");
+      if(result.isEmpty){
+       //call getData again after refresh token
+        getHome();
+        return;
+      }
       setState(() {
         _listData = result;
       });
