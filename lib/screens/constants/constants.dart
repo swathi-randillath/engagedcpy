@@ -2,6 +2,7 @@ import 'package:get_storage/get_storage.dart';
 
 const ACCESS_TOKEN = "token";
 const refresh_token="refresh_token";
+const user_name="user_name";
 const USER_LOGGED_IN = "user_logged_in";
 
 String getToken() {

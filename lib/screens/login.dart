@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
           myPasswordController.text, "password", lat, long);
       box.write(ACCESS_TOKEN, result.accessToken);
       box.write(refresh_token, result.refreshToken);
+      box.write(user_name, myNameController.text);
       box.write(USER_LOGGED_IN, true);
 
       debugPrint("safe:$USER_LOGGED_IN");
@@ -114,6 +115,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     checkGps();
+    final storage = GetStorage();
+    var userName = storage.read(user_name);
+    myNameController.text = userName ?? '';
     super.initState();
   }
 
