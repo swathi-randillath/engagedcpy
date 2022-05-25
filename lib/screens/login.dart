@@ -83,7 +83,6 @@ class _LoginPageState extends State<LoginPage> {
       box.write(ACCESS_TOKEN, result.accessToken);
       box.write(refresh_token, result.refreshToken);
       box.write(user_name, myNameController.text);
-      box.write(password, myPasswordController.text);
       box.write(USER_LOGGED_IN, "yes");
       debugPrint("accessToken :${box.read(ACCESS_TOKEN)}");
       debugPrint("refresh_token :${box.read(refresh_token)}");
@@ -122,7 +121,6 @@ class _LoginPageState extends State<LoginPage> {
     var userName = storage.read(user_name);
     var pass = storage.read(password);
     myNameController.text = userName ?? '';
-    myPasswordController.text = pass ?? '';
     super.initState();
   }
 

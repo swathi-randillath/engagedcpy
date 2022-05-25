@@ -1,4 +1,6 @@
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import '../models/EmployeeInfoModel.dart';
@@ -9,6 +11,7 @@ import '../models/login_model.dart';
 import '../models/refreshToken.dart';
 import '../screens/constants/constants.dart';
 import '../screens/constants/toast.dart';
+import '../screens/login.dart';
 class ApiService {
   static var client = http.Client();
   static var baseurl = "http://demo5.scarecrow.co.za/";
@@ -59,6 +62,7 @@ class ApiService {
       return pageAccessModelFromJson(response.body);
     } else if (response.statusCode == 401) {
       var success = getRefreshToken();
+      print("success:$success");
       return pageAccessModelFromJson("");
     } else {
       throw Exception("failed to load");
@@ -129,16 +133,30 @@ class ApiService {
     debugPrint('body:' + response.body);
     debugPrint('status:' + response.statusCode.toString());
     if (response.statusCode == 400) {
+      // _refreshExpired();
+
+
       toastMessage("	invalid user credentials");
+
+
     }
-    if (response.statusCode == 200) {
+    else if (response.statusCode == 200) {
       final box = GetStorage();
       var refreshBody = refreshFromJson(response.body);
       box.write(refresh_token, refreshBody.accessToken);
       toastMessage("Refresh success");
-      return true;
+      print("swathiii");
     } else {
-      throw Exception('Failed to load');
+      throw Exception(response.statusCode.toString() + 'Failed to load');
     }
+    return true;
+  }
+  void _refreshExpired(context) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+            (route) => false);
   }
 }

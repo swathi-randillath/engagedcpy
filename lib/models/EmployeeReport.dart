@@ -20,10 +20,10 @@ class EmployeeReport {
   double? actualValue;
 
   factory EmployeeReport.fromJson(Map<String, dynamic> json) => EmployeeReport(
-    employee: json["Employee"],
-    targetValue: json["TargetValue"],
-    forecastValue: json["ForecastValue"],
-    actualValue: json["ActualValue"].toDouble(),
+    employee: json["Employee"]??"",
+    targetValue: json["TargetValue"]??"",
+    forecastValue: json["ForecastValue"]??"",
+    actualValue: json["ActualValue"].toDouble()??"",
   );
 
   Map<String, dynamic> toJson() => {

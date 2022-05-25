@@ -110,7 +110,14 @@ buildProfileDrawer(context) {
                     ),
                     TextButton(
                       child: const Text('Logout'),
-                      onPressed: ()=>_completeLogin
+                      onPressed: (){
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                                (route) => false);
+                      }
                     )
                   ],
                 ),

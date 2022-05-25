@@ -31,7 +31,7 @@ class MyChartPageState extends State<MyChartPage> {
       setState(() {
         _data = result;
         setState(() {
-          chartData.add(ChartData(1, _data.first.actualValue ?? 0.0, _data.first.targetValue ?? 0.0, ));
+          chartData.add(ChartData(1, _data.first.actualValue ?? 5.0, _data.first.targetValue ?? 6.0, ));
         });
       });
     } on Exception catch (exception) {

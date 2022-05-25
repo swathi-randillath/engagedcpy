@@ -22,12 +22,10 @@ class EmployeeInfo {
   String phoneNumber;
 
   factory EmployeeInfo.fromJson(Map<String, dynamic> json) => EmployeeInfo(
-    fullName: json["FullName"],
-    email: json["Email"],
-    // idNumber: json["IDNumber"]?json["IDNumber"]:'',
-    // phoneNumber: json["PhoneNumber"]?json["PhoneNumber"]:'',
-    idNumber: json["IDNumber"] == null?'No ID Number':json["IDNumber"],
-    phoneNumber: json["phoneNumber"] == null?'No Phone Number':json["phoneNumber"],
+    fullName: json["FullName"]??"",
+    email: json["Email"]??"",
+    idNumber: json["IDNumber"] ?? '',
+    phoneNumber: json["phoneNumber"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

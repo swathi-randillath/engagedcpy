@@ -16,8 +16,8 @@ class ProfileValue {
   int value;
 
   factory ProfileValue.fromJson(Map<String, dynamic> json) => ProfileValue(
-    description: json["Description"],
-    value: json["Value"],
+    description: json["Description"]??"",
+    value: json["Value"]??"",
   );
 
   Map<String, dynamic> toJson() => {

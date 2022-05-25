@@ -49,15 +49,15 @@ class _EmployeeProfileValueState extends State<EmployeeProfileValue> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: _data.length,
           itemBuilder: (context, index) {
-            return Align(
+            return Center(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const
                     SizedBox(width: 20),
                     Container(
-                      height: 103,
-                      width: 103,
+                      height: 98,
+                      width: 98,
                       decoration: BoxDecoration(
                         color: const Color(0xffFFFFFF),
                         borderRadius: BorderRadius.circular(24),

@@ -23,12 +23,12 @@ class PageAccessModel {
   bool isActive;
 
   factory PageAccessModel.fromJson(Map<String, dynamic> json) => PageAccessModel(
-    employeeId: json["EmployeeID"],
-    elementId: json["ElementID"],
-    description: json["Description"],
-    subDescription: json["SubDescription"],
-    iconDescription: json["IconDescription"],
-    isActive: json["IsActive"],
+    employeeId: json["EmployeeID"]??"",
+    elementId: json["ElementID"]??"",
+    description: json["Description"]??"",
+    subDescription: json["SubDescription"]??"",
+    iconDescription: json["IconDescription"]??"",
+    isActive: json["IsActive"]??"",
   );
 
   Map<String, dynamic> toJson() => {

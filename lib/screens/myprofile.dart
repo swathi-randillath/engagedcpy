@@ -420,8 +420,9 @@ class _MyProfileState extends State<MyProfile> {
                         fontWeight: FontWeight.w400,
                         color: Color(0xff8697AC)),
                   ),
+                  _list[0].email.isEmpty?Container():
                   Padding(
-                    padding: const EdgeInsets.only(left: 75, top: 27),
+                    padding: const EdgeInsets.only(left: 80,right: 0, top: 27),
                     child: Row(
                       children: [
                         SizedBox(
@@ -445,6 +446,7 @@ class _MyProfileState extends State<MyProfile> {
                       ],
                     ),
                   ),
+                  _list[0].phoneNumber.isEmpty?Container():
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 120.0, top: 10, bottom: 10),
@@ -503,7 +505,7 @@ class _MyProfileState extends State<MyProfile> {
                 ],
               ),
             ),
-            SizedBox(width: 700, height: 270, child: MyChartPage()),
+            const SizedBox(width: 700, height: 270, child: MyChartPage()),
             Padding(
               padding:
               const EdgeInsets.only(bottom: 15.0, left: 65, top: 5),
@@ -597,8 +599,10 @@ class _MyProfileState extends State<MyProfile> {
                           fontWeight: FontWeight.w400,
                           color: Color(0xff8697AC)),
                     ),
+                    _list[0].email.isEmpty?Container():
+
                     Padding(
-                      padding: const EdgeInsets.only(left: 245, top: 27),
+                      padding: const EdgeInsets.only(left: 300, top: 27,right: 0),
                       child: Row(
                         children: [
                           SizedBox(
@@ -622,6 +626,8 @@ class _MyProfileState extends State<MyProfile> {
                         ],
                       ),
                     ),
+                    _list[0].phoneNumber.isEmpty?Container():
+
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 290.0, top: 10, bottom: 10),
@@ -680,7 +686,7 @@ class _MyProfileState extends State<MyProfile> {
                   ],
                 ),
               ),
-              SizedBox(width: 700, height: 270, child: MyChartPage()),
+              const SizedBox(width: 700, height: 270, child: MyChartPage()),
               Padding(
                 padding:
                 const EdgeInsets.only(bottom: 15.0, left: 65, top: 5),

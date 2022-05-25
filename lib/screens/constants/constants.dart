@@ -12,6 +12,8 @@ String getToken() {
 
   var token = storage.read(ACCESS_TOKEN);
   String authorization = 'Bearer $token';
+
+
   return authorization;
 }
 String getReToken(){

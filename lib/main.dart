@@ -1,4 +1,4 @@
-import 'package:engaged/splashScreen.dart';
+import 'package:engaged/screens/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
