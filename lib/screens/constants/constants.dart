@@ -6,6 +6,7 @@ const refresh_token="refresh_token";
 const user_name="user_name";
 const password="password";
 const USER_LOGGED_IN = "user_logged_in";
+const IMAGE_PATH="image_path";
 
 String getToken() {
   final storage = GetStorage();

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/EmployeeInfoModel.dart';
@@ -14,6 +15,7 @@ import '../services/api.dart';
 import 'chart.dart';
 import 'package:intl/intl.dart';
 
+import 'constants/constants.dart';
 import 'constants/loader.dart';
 import 'constants/toast.dart';
 
@@ -37,6 +39,7 @@ class _MyProfileState extends State<MyProfile> {
     super.initState();
     getDetailsWrapper();
     _getTime();
+    final storage = GetStorage();
   }
 
   void getDetailsWrapper() async {
@@ -55,13 +58,7 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   Future<bool> getDetails() async {
-    // setState(() {
-    //   isload = false;
-    // });
     try {
-      // setState(() {
-      //   isload = true;
-      // });
       print("reached getDetails");
 
       var result = await _apiService.getInfo();
@@ -85,6 +82,7 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   File? image;
+  final box = GetStorage();
 
   Future picImage(ImageSource source) async {
     try {
@@ -92,7 +90,9 @@ class _MyProfileState extends State<MyProfile> {
       if (image == null) return;
       final imageTemp = File(
         image.path,
+
       );
+      box.write(IMAGE_PATH, imageTemp);
       setState(() {
         this.image = imageTemp;
         Navigator.pop(context);

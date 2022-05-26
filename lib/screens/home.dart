@@ -150,7 +150,8 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   itemCount: _listData.length,
                   itemBuilder: (context, index) {
-                    return Padding(
+                    return _listData[index].isActive==false?Container():
+                      Padding(
                         padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                         child: Container(
                             decoration: BoxDecoration(

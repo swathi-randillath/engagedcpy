@@ -61,8 +61,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return pageAccessModelFromJson(response.body);
     } else if (response.statusCode == 401) {
-      var success = getRefreshToken();
-      print("success:$success");
+      await getRefreshToken();
       return pageAccessModelFromJson("");
     } else {
       throw Exception("failed to load");
@@ -83,7 +82,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return employeeInfoFromJson(response.body);
     }else if (response.statusCode == 401) {
-      var success = getRefreshToken();
+     await getRefreshToken();
       return employeeInfoFromJson("");
     } else {
       throw Exception("failed to load");
