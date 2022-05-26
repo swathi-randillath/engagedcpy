@@ -62,6 +62,7 @@ class ApiService {
       return pageAccessModelFromJson(response.body);
     } else if (response.statusCode == 401) {
       await getRefreshToken();
+      getData();
       return pageAccessModelFromJson("");
     } else {
       throw Exception("failed to load");
@@ -83,7 +84,9 @@ class ApiService {
       return employeeInfoFromJson(response.body);
     }else if (response.statusCode == 401) {
      await getRefreshToken();
-      return employeeInfoFromJson("");
+     print("hellloooooooooooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+     getInfo();
+     return employeeInfoFromJson("");
     } else {
       throw Exception("failed to load");
     }

@@ -36,17 +36,28 @@ class _MyProfileState extends State<MyProfile> {
   @override
   void initState()  {
     // TODO: implement initState
-    super.initState();
     getDetailsWrapper();
     _getTime();
-    final storage = GetStorage();
-    final imageTmp =File(storage.read(IMAGE_PATH));
-   image = imageTmp;
+     imageStore();
+    super.initState();
+
 
   }
+  void imageStore() {
+    final box = GetStorage();
+    final imageTmp = box.read(IMAGE_PATH) ?? "";
+    if (imageTmp == "") return;
+    final imageNew = File(
+        imageTmp);
 
+
+      image = imageNew;
+      Navigator.pop(context);
+
+  }
   void getDetailsWrapper() async {
     var isLoadTemp = await getDetails();
+    if (!mounted) return;
     setState(() {
       isload = isLoadTemp;
     });
