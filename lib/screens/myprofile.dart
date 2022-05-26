@@ -74,10 +74,10 @@ class _MyProfileState extends State<MyProfile> {
 
       var result = await _apiService.getInfo();
       debugPrint("Size:: ${result.length}");
-      if(result.isEmpty){
-        //call getDetails again after refresh token
-        getDetails();
-      }
+      // if(result.isEmpty){
+      //   //call getDetails again after refresh token
+      //   getDetails();
+      // }
       setState(() {
         _list = result;
       });

@@ -1,8 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+
 import '../models/EmployeeInfoModel.dart';
 import '../models/EmployeeReport.dart';
 import '../models/employeeProfileValue.dart';
@@ -12,6 +12,7 @@ import '../models/refreshToken.dart';
 import '../screens/constants/constants.dart';
 import '../screens/constants/toast.dart';
 import '../screens/login.dart';
+
 class ApiService {
   static var client = http.Client();
   static var baseurl = "http://demo5.scarecrow.co.za/";
@@ -48,7 +49,6 @@ class ApiService {
   }
 
   Future<List<PageAccessModel>> getData() async {
-
     debugPrint("accessToken ------->>>>> :$authorization");
     final response = await client.get(Uri.parse(pageAccessUrl), headers: {
       'Content-type': 'application/json',
@@ -70,6 +70,7 @@ class ApiService {
   }
 
   Future<List<EmployeeInfo>> getInfo() async {
+    var authorization = getToken();
     final response = await client.get(Uri.parse(profileInfoUrl), headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -82,11 +83,17 @@ class ApiService {
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       return employeeInfoFromJson(response.body);
-    }else if (response.statusCode == 401) {
-     await getRefreshToken();
-     print("hellloooooooooooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-     getInfo();
-     return employeeInfoFromJson("");
+    } else if (response.statusCode == 401) {
+      var success = await getRefreshToken();
+      if (success) {
+        print("hellloooooooooooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //call getInfo again after refresh token
+        getInfo();
+       return employeeInfoFromJson("");
+      } else {
+        print("Refresh token failed");
+        throw Exception("Refresh token failed");
+      }
     } else {
       throw Exception("failed to load");
     }
@@ -100,8 +107,6 @@ class ApiService {
     });
     debugPrint(response.body);
     print("token=$authorization");
-
-
 
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
@@ -128,7 +133,7 @@ class ApiService {
     }
   }
 
-   Future<bool> getRefreshToken() async {
+  Future<bool> getRefreshToken() async {
     debugPrint(getReToken());
     var body = {"Refresh_token": getReToken(), "grant_type": "refresh_token"};
     final response = await client.post(Uri.parse(loginUrl), body: body);
@@ -137,28 +142,28 @@ class ApiService {
     if (response.statusCode == 400) {
       // _refreshExpired();
 
-
       toastMessage("	invalid user credentials");
 
-
-    }
-    else if (response.statusCode == 200) {
+      return false;
+    } else if (response.statusCode == 200) {
       final box = GetStorage();
       var refreshBody = refreshFromJson(response.body);
-      box.write(refresh_token, refreshBody.accessToken);
+      box.write(ACCESS_TOKEN, refreshBody.accessToken);
       toastMessage("Refresh success");
-      print("swathiii");
+      print("swathiii refresh - accessToken :: ${refreshBody.accessToken}");
+      return true;
     } else {
       throw Exception(response.statusCode.toString() + 'Failed to load');
     }
-    return true;
+    return false;
   }
+
   void _refreshExpired(context) {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => const LoginPage(),
         ),
-            (route) => false);
+        (route) => false);
   }
 }
