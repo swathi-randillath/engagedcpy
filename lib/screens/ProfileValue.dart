@@ -49,49 +49,51 @@ class _EmployeeProfileValueState extends State<EmployeeProfileValue> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: _data.length,
           itemBuilder: (context, index) {
-            return Center(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const
-                    SizedBox(width: 20),
-                    Container(
-                      height: 98,
-                      width: 98,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffFFFFFF),
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: const [
-                          BoxShadow(
-                              offset: Offset(0, 8),
-                              color: Color.fromRGBO(29, 49, 73, 0.16),
-                              blurRadius: 28.0,
-                              spreadRadius: -6),
-                        ],
+            return Align(
+              child: Center(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const
+                      SizedBox(width: 20),
+                      Container(
+                        height: 98,
+                        width: 98,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffFFFFFF),
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(0, 8),
+                                color: Color.fromRGBO(29, 49, 73, 0.16),
+                                blurRadius: 28.0,
+                                spreadRadius: -6),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _data[index].value.toString(),
+                              style: const TextStyle(
+                                  fontFamily: 'inter',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff228BDB)),
+                            ),
+                            Text(
+                              _data[index].description,
+                              style: const TextStyle(
+                                  fontFamily: 'inter',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff8F8F8F)),
+                            )
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _data[index].value.toString(),
-                            style: const TextStyle(
-                                fontFamily: 'inter',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff228BDB)),
-                          ),
-                          Text(
-                            _data[index].description,
-                            style: const TextStyle(
-                                fontFamily: 'inter',
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff8F8F8F)),
-                          )
-                        ],
-                      ),
-                    ),
-                  ]),
+                    ]),
+              ),
             );
           },
         ),

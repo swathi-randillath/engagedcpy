@@ -40,6 +40,9 @@ class _MyProfileState extends State<MyProfile> {
     getDetailsWrapper();
     _getTime();
     final storage = GetStorage();
+    final imageTmp =File(storage.read(IMAGE_PATH));
+   image = imageTmp;
+
   }
 
   void getDetailsWrapper() async {
@@ -92,7 +95,7 @@ class _MyProfileState extends State<MyProfile> {
         image.path,
 
       );
-      box.write(IMAGE_PATH, imageTemp);
+      box.write(IMAGE_PATH, image.path);
       setState(() {
         this.image = imageTemp;
         Navigator.pop(context);
