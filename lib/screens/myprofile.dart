@@ -49,10 +49,7 @@ class _MyProfileState extends State<MyProfile> {
     if (imageTmp == "") return;
     final imageNew = File(
         imageTmp);
-
-
       image = imageNew;
-      Navigator.pop(context);
 
   }
   void getDetailsWrapper() async {
