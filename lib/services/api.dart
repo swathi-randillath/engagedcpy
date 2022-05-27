@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -69,70 +70,65 @@ class ApiService {
     }
   }
 
-  Future<List<EmployeeInfo>> getInfo() async {
-    var authorization = getToken();
-    final response = await client.get(Uri.parse(profileInfoUrl), headers: {
+  getResults(url, [OptionalHeaders, OptionalBody]) async {
+    var headers =  {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': authorization
-    });
-    debugPrint(response.body);
-    print("token=$authorization");
-
-
-    debugPrint(response.statusCode.toString());
+      'Authorization': getToken()
+    };
+    if(OptionalHeaders != null) {
+      headers = {...headers, ...OptionalHeaders};
+    }
+    print("B4 200");
+    final response = await client.get(Uri.parse(url), headers:{...headers});
     if (response.statusCode == 200) {
-      return employeeInfoFromJson(response.body);
+      print("success 200");
+      return response.body.toString();
     } else if (response.statusCode == 401) {
-      var success = await getRefreshToken();
-      if (success) {
-        print("hellloooooooooooo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      print("unsuccess");
+      print(response.statusCode);
+      var success= await getRefreshToken();
+      if(success){
+        print("refreshed!!");
         //call getInfo again after refresh token
-        getInfo();
-       return employeeInfoFromJson("");
-      } else {
-        print("Refresh token failed");
-        throw Exception("Refresh token failed");
+        // getInfo();
+        // return employeeInfoFromJson("");
       }
+      return false;
     } else {
-      throw Exception("failed to load");
+
+      throw Exception("Refresh token failed");
+    }
+  }
+
+  Future<List<EmployeeInfo>> getInfo() async {
+
+    var responseBody = await getResults(profileInfoUrl);
+    if(responseBody != "") {
+      return employeeInfoFromJson(responseBody.toString());
+    } else {
+      throw Exception("Employee Info Failed");
     }
   }
 
   Future<List<EmployeeReport>> getReport() async {
-    final response = await client.get(Uri.parse(profileReportUrl), headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': authorization
-    });
-    debugPrint(response.body);
-    print("token=$authorization");
 
-    debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      return employeeReportFromJson(response.body);
+    var responseBody = await getResults(profileReportUrl);
+    if(responseBody != "") {
+      return employeeReportFromJson(responseBody.toString());
     } else {
-      throw Exception("failed to load");
+      throw Exception("Employee report Failed");
     }
   }
 
   Future<List<ProfileValue>> getProfileValue() async {
-    final response = await client.get(Uri.parse(profileValueUrl), headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': authorization
-    });
-    debugPrint(response.body);
-    print("token=$authorization");
-
-    debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      return profileValueFromJson(response.body);
+    var responseBody = await getResults(profileReportUrl);
+    if(responseBody != "") {
+      return profileValueFromJson(responseBody.toString());
     } else {
-      throw Exception("failed to load");
+      throw Exception("Employee report Failed");
     }
   }
-
   Future<bool> getRefreshToken() async {
     debugPrint(getReToken());
     var body = {"Refresh_token": getReToken(), "grant_type": "refresh_token"};
@@ -140,9 +136,8 @@ class ApiService {
     debugPrint('body:' + response.body);
     debugPrint('status:' + response.statusCode.toString());
     if (response.statusCode == 400) {
-      // _refreshExpired();
-
-      toastMessage("	invalid user credentials");
+      // _refreshExpired(context);
+      toastMessage("	refresh expired");
 
       return false;
     } else if (response.statusCode == 200) {
@@ -155,7 +150,6 @@ class ApiService {
     } else {
       throw Exception(response.statusCode.toString() + 'Failed to load');
     }
-    return false;
   }
 
   void _refreshExpired(context) {

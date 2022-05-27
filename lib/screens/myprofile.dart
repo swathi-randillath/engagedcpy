@@ -73,6 +73,8 @@ class _MyProfileState extends State<MyProfile> {
       print("reached getDetails");
 
       var result = await _apiService.getInfo();
+      print("result");
+      print(result);
       debugPrint("Size:: ${result.length}");
       // if(result.isEmpty){
       //   //call getDetails again after refresh token
@@ -83,8 +85,8 @@ class _MyProfileState extends State<MyProfile> {
       });
      return false;
     } on Exception catch (exception) {
-      toastMessage("CHECK CONNECTION");
-      return true;
+      print(exception);
+      print("failed")  ;    return true;
       // only executed if error is of type Exception
     } catch (error) {
       toastMessage("UNKNOWN ERROR");

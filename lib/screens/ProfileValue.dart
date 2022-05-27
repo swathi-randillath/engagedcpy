@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../models/employeeProfileValue.dart';
 import '../services/api.dart';
-import 'constants/toast.dart';
 
 class EmployeeProfileValue extends StatefulWidget {
   const EmployeeProfileValue({Key? key}) : super(key: key);

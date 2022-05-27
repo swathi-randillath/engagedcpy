@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../screens/login.dart';
 import '../screens/myprofile.dart';
@@ -117,7 +118,10 @@ buildProfileDrawer(context) {
                               builder: (context) => const LoginPage(),
                             ),
                                 (route) => false);
+                        // GetStorage().erase();
+
                       }
+
                     )
                   ],
                 ),
